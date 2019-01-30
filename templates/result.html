@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>weibo search</title>
+    <style type="text/css">
+        img{padding:56px;border-radius: 50%;}
+        .logo{text-align: center;width: auto;}
+        .search{ width: 350px;margin:0px auto;}
+        .box {height: 33px;line-height: 33px;width: 280px;}
+        
+        .btn{display:inline-block;margin-bottom:0;padding:5px 12px;border:1px solid transparent;background-color:#299982;background-image:none;vertical-align:middle;text-align:center;white-space:nowrap;font-weight:400;font-size:14px;line-height:1.42857143;cursor:pointer;-ms-touch-action:manipulation;touch-action:manipulation;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+        .result{width: 80%;margin:0px auto;}
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <a href="/">
+        <img  height="92"
+        src="https://ws1.sinaimg.cn/large/006incL0gy1fva1a5xmm9j30e80e8q3e.jpg"
+         width="272" alt="Google" style="margin: 0 auto;"  ></a>
+    </div>
+    <div class="search">
+        <form role="search" method="get" id="search-form" action="/search/">
+            <div > 
+                <input class="box" placeholder="{{keyword}}" type="text" value="" name="q" id="search-input-s" />
+                <button  class="btn" type="submit" >搜索</button> 
+            </div>
+            
+            
+        </form>
+    </div>
+    <div class="result">
+        <h3>前 {{len1}} 条，共 {{len2}} 条</h3>
+        {% for i in message%}
+        <article  class=" post-article ">
+            <h2 class="title">id：{{i.id}}</h2>
+            <ul class="text">
+                正文：{{i.msg}}
+            </ul>
+
+        </article>
+        {% empty%}
+        {% endfor%}
+    </div>
+            
+            
+</body>
+</html>
