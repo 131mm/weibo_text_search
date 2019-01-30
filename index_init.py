@@ -1,4 +1,4 @@
-import jieba,csv,json
+import jieba,csv
 from redis import Redis
 from multiprocessing import Process,Pool
 
@@ -25,18 +25,13 @@ class searchEngine:
         for i in data:
             rds.set('data_'+i[0],i[1])
 
-
     def indexCreat(self,testdata):
         #初始化数据
-
-        # self.toIndex(testdata,1)
         lens=round(len(testdata)/8)
         datasplit=[]
-
         process=[]
         for i in range(8):
             datasplit.append(testdata[i*lens:(i+1)*lens])
-
         for i in range(8):
             p=Process(target=self.toIndex,args=(datasplit[i],i))
             process.append(p)
@@ -44,31 +39,6 @@ class searchEngine:
             i.start()
         for i in process:
             i.join()
-
-    def indexMerge(self):
-        re=[]
-        for i in range(8):
-            with open('/Users/sanji/Desktop/search/'+str(i)+'.json',mode='r') as f:
-                r=json.load(f)
-                re.append(r)
-        wordslist=[]
-        for i in re:
-            wordslist+=i[1]
-        wordslist=list(set(wordslist))
-        wordsdict={}
-        for i in re:
-            for j in i[0]:
-                if wordsdict.__contains__(j):
-                    tempIndex=wordsdict[j]
-                else:
-                    tempIndex=i[0][j]
-                tempIndex=list(set(tempIndex+i[0][j]))
-                wordsdict.update({j:tempIndex})
-        re=[wordsdict,wordslist]
-
-        with open('/Users/sanji/Desktop/search/re.json',mode='w') as f:
-            json.dump(re,f,ensure_ascii=False)
-
 
     def searchEngine(self,keyword):
         keyindex=()
@@ -101,13 +71,7 @@ class searchEngine:
             testdata=[]
             for i in data:
                 testdata.append(i)
-                # j+=1
-                # if j>100: break
-
         self.indexCreat(testdata)
-        # self.toIndex(testdata)
-
-
         while 1:
             keyword=input('请输入搜索关键词\n')
             coIndex=self.searchEngine(keyword)
@@ -116,6 +80,7 @@ class searchEngine:
                 post = rds.get('item_'+str(i))
                 msg.append([i,post.decode()])
             print(msg)
+
 if __name__ == '__main__':
     search=searchEngine()
     search.search()

@@ -56,7 +56,6 @@ class download():
         msg.save(sio)
         return sio.getvalue() 
 
-
 application=app.wsgifunc()
 if __name__ == '__main__':
     app.run()

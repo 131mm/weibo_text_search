@@ -42,20 +42,6 @@ class Engine():
             msg.append({'id':i,'msg':post.decode()})
         return msg,len(coIndex)
 
-    # def download(self,keyword):
-    #     coIndex=self.get_index(keyword)
-    #     msg = []
-    #     for i in coIndex:
-    #         post = rds.get('item_'+str(i))
-    #         msg.append((i,post.decode()))
-    #     wbk = xlwt.Workbook()
-    #     sheet = wbk.add_sheet('Sheet1',cell_overwrite_ok=True)
-    #     k=0
-    #     for i in msg:
-    #         sheet.write(k,0,i[0])
-    #         sheet.write(k,1,i[1])
-    #     return wbk
-
     def download(self,keyword):
         """开始制作表格"""
         wb=xlwt.Workbook()
@@ -77,7 +63,6 @@ class Engine():
             count+=1
         return wb
 
-
     def run(self):
         while 1:
             keyword=input('请输入搜索关键词\n')
@@ -87,8 +72,8 @@ class Engine():
                 post = rds.get('item_'+str(i))
                 msg.append([i,post.decode()])
             print(msg,len(msg))
+
 if __name__ == '__main__':
     search=Engine()
-
     msg = search.search('ha',1,1)
     print(msg)
