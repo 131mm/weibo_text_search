@@ -32,13 +32,16 @@ class search():
     def GET(self):
         data = web.input()
         keyword = data.get('keyword','')
+        page = int(data.get('page',0))
         page_len = 20
-        msg, len2 = Engine.search(keyword=keyword,page_len=page_len)
+        msg, len2 = Engine.search(keyword=keyword, page=page, page_len=page_len)
         ret = {
-        'len1': min(page_len,len2),
+        'start': page*page_len,
+        'end': min((page+1)*page_len,len2),
         'len2': len2,
         'message': msg,
         'keyword': keyword,
+        'page': page+1 if len2>page_len else 0,
         }
         return render.result(ret)
 

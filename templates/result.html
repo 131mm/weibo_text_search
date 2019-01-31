@@ -8,9 +8,9 @@
         .logo{text-align: center;width: auto;}
         .search{ width: 350px;margin:0px auto;}
         .box {height: 33px;line-height: 33px;width: 280px;}
-        
         .btn{display:inline-block;margin-bottom:0;padding:5px 12px;border:1px solid transparent;background-color:#299982;background-image:none;vertical-align:middle;text-align:center;white-space:nowrap;font-weight:400;font-size:14px;line-height:1.42857143;cursor:pointer;-ms-touch-action:manipulation;touch-action:manipulation;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
         .result{width: 80%;margin:0px auto;}
+        .nextpage{margin-left: 407px;border: 10px;padding: 10px;}
     </style>
 </head>
 <body>
@@ -23,12 +23,13 @@
         </form>
     </div>
     <div class="result">
-        <h3>前 {{len1}} 条，共 {{len2}} 条</h3>
+	    <h3>第 {{start}}-{{end}} 条，共 {{len2}} 条</h3>
         <form role="search" method="get" id="search-form" action="/download/">
             <div > 
                 <input  value="{{keyword}}" name="keyword" id="" type="hidden" />
                 <button  class="btn" type="submit"  >下载结果</button>
             </div> 
+        </form>
         {% for i in message%}
         <article  class=" post-article ">
             <h2 class="title">id：{{i.id}}</h2>
@@ -37,8 +38,14 @@
             </ul>
         </article>
         {% endfor%}
+        <form role="search" method="get" id="search-form" action="/search/">
+            <div> 
+                <input  value="{{keyword}}" name="keyword" id="" type="hidden" />
+                <input  value="{{page}}" name="page" id="" type="hidden" />
+                <button class='btn' type="submit">下一页</button>
+            </div> 
+        </form>
     </div>
-            
-            
+   
 </body>
 </html>

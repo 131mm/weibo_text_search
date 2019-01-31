@@ -37,9 +37,13 @@ class Engine():
     def search(self,keyword,page=0,page_len=20):
         coIndex=self.get_index2(keyword)
         msg = []
+        '''使用redis管道查询'''
+        pipe = rds.pipeline()
         for i in coIndex[page*page_len:(page+1)*page_len]:
-            post = rds.get('item_'+str(i))
-            msg.append({'id':i,'msg':post.decode()})
+            pipe.get('item_'+str(i))
+        result = pipe.execute()
+        for j,i in enumerate(coIndex[page*page_len:(page+1)*page_len]):
+            msg.append({'id':i,'msg':result[j].decode()})
         return msg,len(coIndex)
 
     def download(self,keyword):
@@ -75,5 +79,5 @@ class Engine():
 
 if __name__ == '__main__':
     search=Engine()
-    msg = search.search('ha',1,1)
+    msg = search.search(keyword='haha')
     print(msg)
