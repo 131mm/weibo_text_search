@@ -49,7 +49,7 @@ class download():
     def GET(self):
         data = web.input()
         keyword = data.get('keyword','')
-        file_name=keyword+".xls"
+        file_name=(keyword+".xls").encode()
         """设置web header"""
         web.header('Content-type','application/vnd.ms-excel')  #指定返回的类型
         web.header('Transfer-Encoding','chunked')
