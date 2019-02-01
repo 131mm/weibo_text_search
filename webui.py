@@ -49,11 +49,12 @@ class download():
     def GET(self):
         data = web.input()
         keyword = data.get('keyword','')
-        file_name=(keyword+".xls").encode()
+        import urllib
+        file_name=urllib.parse.quote((keyword+".xls"))
         """设置web header"""
         web.header('Content-type','application/vnd.ms-excel')  #指定返回的类型
         web.header('Transfer-Encoding','chunked')
-        web.header('Content-Disposition','attachment;filename="{}"'.format(file_name)) #设定用户浏览器显示的保存文件名
+        web.header('Content-Disposition','attachment;filename="{}"'.format(file_name)) #设定文件名
         msg = Engine.download(keyword)
         sio=BytesIO()
         msg.save(sio)

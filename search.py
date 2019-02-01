@@ -54,16 +54,18 @@ class Engine():
         """表头开始"""
         ws.write(0,0,u'id')
         ws.write(0,1,u'text')
-        """设置宽度""" 
-        col=ws.col(0) 
-        col.width=256*15 #15个字符宽度
         """表体开始"""
         coIndex=self.get_index2(keyword)
-        count=1 
+        count = 1 
+        pipe = rds.pipeline()
         for i in coIndex:
-            post = rds.get('item_'+str(i))
+            pipe.get('item_'+str(i))
             ws.write(count,0,i)
-            ws.write(count,1,post.decode())
+            count+=1
+        result = pipe.execute()
+        count = 1
+        for i in result:
+            ws.write(count,1,i.decode())
             count+=1
         return wb
 
